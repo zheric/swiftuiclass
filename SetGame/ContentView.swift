@@ -12,55 +12,94 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
+            AspectVGrid(items: game.dealtCards, aspectRatio: 2/3) { card in
                 cardView(for: card)
             }
-            dealCardsBtn
+            HStack {
+                if game.undealtCards.count > 0 {
+                    Spacer()
+                    cardDeckView
+                }
+                Spacer()
+                if game.discardPile.count > 0 {
+                    discardPileView
+                    Spacer()
+                }
+            }
         }
     }
     
-    var dealCardsBtn: some View {
-        Button {
-            game.dealCards()
-        } label: {
-            Text("Deal Cards").font(.system(size:30)).padding(.all)
+    var cardDeckView: some View {
+        ZStack {
+            ForEach(game.undealtCards) { card in
+                CardView(card: card, faceUp: false)
+            }
         }
+        .onTapGesture {
+            game.dealCards()
+        }
+        .frame(width: Constants.DeckWidth, height: Constants.DeckWidth / Constants.AspectRatio, alignment: .bottom)
     }
+    
+    var discardPileView: some View {
+        ZStack {
+            ForEach(game.discardPile) { card in
+                CardView(card: card, faceUp: true)
+            }
+        }
+        .frame(width: Constants.DeckWidth, height: Constants.DeckWidth / Constants.AspectRatio, alignment: .bottom)
+    }
+
     
     @ViewBuilder
     private func cardView(for card:SetGame.Card) -> some View {
-        CardView(card: card).onTapGesture {
+        CardView(card: card, faceUp: true).onTapGesture {
             game.select(card)
         }
+    }
+    
+    private struct Constants {
+        static let DeckWidth : CGFloat = 90
+        static let AspectRatio : CGFloat = 2/3
     }
 }
 
 struct CardView: View {
     var card : SetGame.Card
+    var faceUp : Bool
+    
+    init(card : SetGame.Card, faceUp : Bool ) {
+        self.card = card
+        self.faceUp = faceUp
+    }
     
     var body: some View {
         ZStack {
             let shape = RoundedRectangle(cornerRadius: 10)
-            shape.fill().foregroundColor(.white)
-            if card.matched {
-                shape.stroke(lineWidth: 4).foregroundColor(.blue)
-            } else if card.selected {
-                shape.stroke(lineWidth: 3).foregroundColor(.yellow)
-            }  else {
-                shape.stroke(lineWidth: 2).foregroundColor(.gray)
-            }
-            VStack {
-                ForEach((0..<card.number), id: \.self) {_ in
-                    cardView(card)
+            if faceUp {
+                shape.fill().foregroundColor(.white)
+                if card.matched {
+                    shape.stroke(lineWidth: 4).foregroundColor(.blue)
+                } else if card.selected {
+                    shape.stroke(lineWidth: 3).foregroundColor(.yellow)
+                }  else {
+                    shape.stroke(lineWidth: 2).foregroundColor(.gray)
                 }
-            }.padding(2)
+                VStack {
+                    ForEach((0..<card.count), id: \.self) {_ in
+                        shapesView(from: card.shape)
+                    }
+                }.padding(2)
+            } else {
+                shape.fill().foregroundColor(.red)
+            }
         }.aspectRatio(2/3, contentMode: .fit)
             .padding(4)
     }
     
     @ViewBuilder
-    func cardView(_ card:SetGame.Card) -> some View {
-        switch card.shape
+    func shapesView(from shape:SetGame.ShapeType) -> some View {
+        switch shape
         {
         case .oval:
             OvalView(shading: card.shade, color: CardView.color(card.color))

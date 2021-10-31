@@ -16,8 +16,16 @@ class GameController : ObservableObject {
         gameModel = SetGame()
     }
     
-    var cards : [SetGame.Card] {
+    var dealtCards : [SetGame.Card] {
         gameModel.dealtCards
+    }
+    
+    var undealtCards : [SetGame.Card] {
+        gameModel.cards
+    }
+    
+    var discardPile : [SetGame.Card] {
+        gameModel.discardPile
     }
     
     func select(_ card: SetGame.Card) {
