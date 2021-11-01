@@ -20,6 +20,8 @@ struct SetGame {
         var id: Int
         var matched = false
         var selected = false
+        var dealt = false
+        var discarded = false
     }
     
     static func generateCards() -> [Card] {
@@ -42,56 +44,60 @@ struct SetGame {
     
     private(set) var cards : [Card]
     
-    var selectedCards : [Card] {
-        dealtCards.filter{ $0.selected }
+    var selectedCardsCount : Int {
+        dealtCards.filter{ $0.selected }.count
     }
     
-    var discardPile : [Card]
+    var discardPile : [Card] {
+        cards.filter { $0.discarded }
+    }
     
-    var dealtCards : [Card]
+    var dealtCards : [Card] {
+        cards.filter{ $0.dealt && !$0.discarded }
+    }
+    
+    var unDealtCards : [Card] {
+        cards.filter{ !$0.dealt && !$0.matched }
+    }
     
     init() {
         cards = Self.generateCards()
-        dealtCards = []
-        discardPile = []
     }
         
     mutating func resetActiveCards() -> Void {
-        discardPile.append(contentsOf: dealtCards.filter({$0.matched}))
-        dealtCards.removeAll( where: {$0.matched} )
-        for card in selectedCards {
-            if let idx = dealtCards.firstIndex(where: {$0.id == card.id }) {
-                dealtCards[idx].selected = false
-            }
+        for idx in cards.indices {
+            cards[idx].selected = false
         }
     }
     
     mutating func select(_ card: Card) {
-        if let idx = dealtCards.firstIndex(where: { $0.id == card.id }) {
-            if selectedCards.count >= 3 {
+        discardMatchedCard()
+        if let idx = cards.firstIndex(where: { $0.id == card.id }) {
+            if selectedCardsCount >= 3 {
                 resetActiveCards()
             }
+    
+            cards[idx].selected.toggle()
             
-            if idx < dealtCards.count {
-                dealtCards[idx].selected.toggle()
-            }
-            
-            if selectedCards.count >= 3 {
-                if cardsFormASet(selectedCards) {
-                    let selectedCardsIndices = dealtCards.indices.filter { dealtCards[$0].selected }
-                    for idx in selectedCardsIndices {
-                        dealtCards[idx].matched = true
-                    }
-                }
+            if setFormed() {
+                markSetMatched()
             }
         }
     }
     
+    mutating func discardMatchedCard() {
+        for idx in cards.indices.filter({ cards[$0].matched }) {
+            cards[idx].discarded = true
+        }
+    }
+    
     mutating func dealCards() {
-        if cards.count < 3 { return }
-        let cnt = cards.count
-        dealtCards.append(contentsOf: cards[cnt-3..<cnt])
-        cards.removeSubrange(cnt-3..<cnt)
+        discardMatchedCard()
+        let numCardsDealt = dealtCards.count + discardPile.count
+        for idx in numCardsDealt..<min(cards.count, numCardsDealt+3) {
+            cards[idx].dealt = true
+        }
+        print("dealt \(dealtCards.count) cards")
     }
     
     private func cardsOfDistinctNumber(_ cards:[Card]) -> Bool {
@@ -131,6 +137,13 @@ struct SetGame {
         return s.count == cards.count
     }
     
+    private func setFormed() -> Bool {
+        if selectedCardsCount < 3 {
+            return false
+        }
+        let selectedCards = cards.filter{$0.selected}
+        return cardsFormASet(selectedCards)
+    }
     private func cardsFormASet(_ cards:[Card]) -> Bool {
         let numbersRule = cardsOfSameNumber(cards) || cardsOfDistinctNumber(cards)
         let colorRule = cardsOfSameColor(cards) || cardsOfDistinctColor(cards)
@@ -143,5 +156,13 @@ struct SetGame {
         return numbersRule && colorRule && shadeRule && shapeRule;
     }
     
-    
+    private mutating func markSetMatched() {
+        let selectedCardsIndices = cards.indices.filter{cards[$0].selected }
+        guard selectedCardsIndices.count == 3 else {
+            return
+        }
+        for i in selectedCardsIndices {
+            cards[i].matched = true
+        }
+    }
 }

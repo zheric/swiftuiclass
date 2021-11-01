@@ -21,7 +21,7 @@ class GameController : ObservableObject {
     }
     
     var undealtCards : [SetGame.Card] {
-        gameModel.cards
+        gameModel.unDealtCards
     }
     
     var discardPile : [SetGame.Card] {
@@ -34,5 +34,9 @@ class GameController : ObservableObject {
     
     func dealCards() {
         gameModel.dealCards()
+    }
+    
+    func restart() {
+        gameModel = SetGame()
     }
 }
