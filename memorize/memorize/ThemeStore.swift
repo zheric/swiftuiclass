@@ -14,6 +14,24 @@ struct Theme : Identifiable, Hashable {
     var numPairsOfEmojis : Int = 0
     var id : Int
     
+    static private var themeID : Int = 0
+    
+    init(name:String, emojis:String, color:String) {
+        self.name = name
+        self.emojis = emojis
+        self.color = color
+        self.id = Theme.themeID
+        Theme.themeID = Theme.themeID + 1
+    }
+    
+    init(name:String, emojis:String, color:String, numPairsOfEmojis:Int) {
+        self.name = name
+        self.emojis = emojis
+        self.color = color
+        self.id = Theme.themeID
+        self.numPairsOfEmojis = numPairsOfEmojis
+        Theme.themeID = Theme.themeID + 1
+    }
     
     static func ==(lhs: Theme, rhs: Theme) -> Bool {
         (lhs.name, lhs.emojis, lhs.color, lhs.numPairsOfEmojis, lhs.id)
@@ -28,17 +46,15 @@ struct Theme : Identifiable, Hashable {
 class ThemeStore : ObservableObject {
     @Published var themes : [Theme]
     
-    var themeID : Int = 0
     init() {
         themes = [
-            Theme(name: "Vehicles", emojis: "🚗🚌🚎🏎🚑🚜🛻🚒🚅✈️", color: "red", numPairsOfEmojis: 10, id: 0),
-            Theme(name: "House", emojis: "🏘🏕⛺️🛖🏠🏚🏭🏢🏬🏣🏤🏥🏦🏨🏪🏫🏩💒🏛⛪️🕌⛩", color: "blue", numPairsOfEmojis:5, id: 1),
-            Theme(name: "People", emojis: "👶👧🧑‍🦰🧑‍🦳👮‍♂️🧓🏽🧔🏿‍♀️👱🏻‍♀️🧑‍🎨👨‍🚀🥷🧝🎅🏻🧙‍♀️🦹🧛", color: "yellow", numPairsOfEmojis: 6, id: 2),
-            Theme(name: "Flower", emojis: "🌺🌸🌼🌻🌷🌹", color: "green", numPairsOfEmojis: 5, id:3),
-            Theme(name: "Animal", emojis: "🐝🐛🦋🐌🐥🪰🐠🐳", color: "pink", numPairsOfEmojis: 6, id:4),
-            Theme(name: "Food", emojis: "🍏🍉🍇🍓🍍🍒🍑🍊", color:"orange", numPairsOfEmojis: 8, id:5)
+            Theme(name: "Vehicles", emojis: "🚗🚌🚎🏎🚑🚜🛻🚒🚅✈️", color: "red", numPairsOfEmojis: 10),
+            Theme(name: "House", emojis: "🏘🏕⛺️🛖🏠🏚🏭🏢🏬🏣🏤🏥🏦🏨🏪🏫🏩💒🏛⛪️🕌⛩", color: "blue", numPairsOfEmojis:5),
+            Theme(name: "People", emojis: "👶👧🧑‍🦰🧑‍🦳👮‍♂️🧓🏽🧔🏿‍♀️👱🏻‍♀️🧑‍🎨👨‍🚀🥷🧝🎅🏻🧙‍♀️🦹🧛", color: "yellow", numPairsOfEmojis: 6),
+            Theme(name: "Flower", emojis: "🌺🌸🌼🌻🌷🌹", color: "green", numPairsOfEmojis: 5),
+            Theme(name: "Animal", emojis: "🐝🐛🦋🐌🐥🪰🐠🐳", color: "pink", numPairsOfEmojis: 6),
+            Theme(name: "Food", emojis: "🍏🍉🍇🍓🍍🍒🍑🍊", color:"orange", numPairsOfEmojis: 8)
         ]
-        themeID = themes.count
     }
     
     func theme(at index:Int) -> Theme {
@@ -46,10 +62,12 @@ class ThemeStore : ObservableObject {
         return themes[safeIdx]
     }
     
-    func addTheme(name: String, emojis: String, color: String) -> Theme {
-        themes.append(Theme(name: name, emojis: emojis, color: color, numPairsOfEmojis: emojis.count, id: themeID))
-        themeID = themeID + 1
-        return themes.last!
+    func addTheme(_ theme:Theme) {
+        addTheme(name: theme.name, emojis: theme.emojis, color: theme.color)
+    }
+    
+    func addTheme(name: String, emojis: String, color: String) {
+        themes.append(Theme(name: name, emojis: emojis, color: color, numPairsOfEmojis: emojis.count))
     }
 }
 

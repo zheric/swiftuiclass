@@ -13,6 +13,7 @@ struct ThemeEditor: View {
     
     var body: some View {
         VStack {
+            NavigationView {
                 Form{
                     nameSection
                     addEmojisSection
@@ -20,6 +21,7 @@ struct ThemeEditor: View {
                     itemCountSection
                     colorPickerSection
                 }
+            }
             closeBtn
         }
     }
@@ -77,9 +79,9 @@ struct ThemeEditor: View {
     var colorPickerSection: some View {
             Section(header: Text("Color")) {
                 Picker("Pick a color", selection: $theme.color) {
-                    Text("Red").tag(0)
-                    Text("Green").tag(1)
-                    Text("Yellow").tag(2)
+                    ForEach(["red", "green", "blue"], id:\.self) {
+                        Text("\($0)")
+                    }
                 }
             }
     }

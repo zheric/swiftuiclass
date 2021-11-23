@@ -95,7 +95,7 @@ struct CardView : View {
 
 
 struct ContentView_Previews: PreviewProvider {
-    static let theme = Theme(name: "Vehicles", emojis: "🚗🚌🚎🏎🚑🚜🛻🚒🚅✈️", color: "red", numPairsOfEmojis: 10, id: 0)
+    static let theme = Theme(name: "Vehicles", emojis: "🚗🚌🚎🏎🚑🚜🛻🚒🚅✈️", color: "red", numPairsOfEmojis: 10)
     static var previews: some View {
         GameView(with: theme).preferredColorScheme(.light)
     }

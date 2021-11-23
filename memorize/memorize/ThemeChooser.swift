@@ -56,17 +56,24 @@ struct ThemeChooser: View {
         }
     }
     
+    @State var themeToAdd : Theme = Theme(name: "", emojis: "", color: "red")
+    
     func addNewTheme() -> some View {
-        editMode == .active ?
             Button {
-                themeToEdit = store.addTheme(name: "", emojis: "", color: "red")
+                themeToAdd = Theme(name: "", emojis: "", color: "red")
+                themeToEdit = themeToAdd
             } label: {
-                Text("Add")
+                Text(.init(systemName: "plus.circle"))
             }
             .popover(item: $themeToEdit) { theme in
-                ThemeEditor(theme: $store.themes[theme])
+                ThemeEditor(theme: $themeToAdd).onDisappear {
+                    if themeToAdd.name.isEmpty,
+                       themeToAdd.emojis.isEmpty
+                    {
+                        store.addTheme(themeToAdd)
+                    }
+                }
             }
-            : nil
     }
 }
 
