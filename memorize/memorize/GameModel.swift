@@ -23,11 +23,15 @@ struct GameModel {
         matchCount == cards.count
     }
     
-    init(withTheme theme:GameViewModel.Theme) {
+    init() {
+        themeName = ""
+    }
+    
+    init(with theme:Theme) {
         let shuffledEmojis = theme.emojis.shuffled()
         for index in 0..<min(theme.numPairsOfEmojis, theme.emojis.count) {
-            self.cards.append(Card(content:shuffledEmojis[index], id:index*2))
-            self.cards.append(Card(content:shuffledEmojis[index], id:index*2+1))
+            self.cards.append(Card(content:String(shuffledEmojis[index]), id:index*2))
+            self.cards.append(Card(content:String(shuffledEmojis[index]), id:index*2+1))
         }
         self.cards.shuffle()
         themeName = theme.name
@@ -59,7 +63,6 @@ struct GameModel {
     }
     
     struct Card : Identifiable {
-    
         var content : String
         var id: Int
         var faceUp = false

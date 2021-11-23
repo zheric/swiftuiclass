@@ -7,47 +7,55 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct GameView: View {
     
     @ObservedObject var gameController : GameViewModel
     
-    init(game: GameViewModel) {
-        gameController = game
+    init(with theme:Theme) {
+        gameController = GameViewModel(with: theme)
     }
     
     var body: some View {
         VStack {
-            TitleView
-            Text("\(gameController.name)")
-                .font(.title)
-                .foregroundColor(gameController.cardColor)
-            Divider()
-            ScrollView {
-                LazyVGrid(columns:[GridItem(.adaptive(minimum: 80))]) {
-                    ForEach(gameController.cards) { card in
-                        CardView(card: card,
-                                 cardColor: gameController.cardColor)
-                            .onTapGesture {
-                                gameController.select(card)
-                            }
-                    }
-                }.foregroundColor(gameController.cardColor)
+            HStack {
+                titleView
+                Spacer()
+                scoreView
             }
+            gameView
             Spacer()
-            Text("\(gameController.score)").font(.title).foregroundColor(.green)
-            newGameBtn
+            restartBtn
         }.padding(.horizontal)
     }
     
-    var TitleView: some View {
-        Text("Memorize!")
-            .font(.system(size: 56))
+    var titleView: some View {
+        Text("\(gameController.name)")
+            .font(.title)
+            .foregroundColor(gameController.cardColor)
     }
-    var newGameBtn: some View {
+    
+    var scoreView: some View {
+        Text("\(gameController.score)")
+                .font(.title)
+                .foregroundColor(gameController.cardColor)
+    }
+    
+    var gameView: some View {
+        AspectVGrid(items: gameController.cards, aspectRatio: 2/3) { card in
+            CardView(card: card, cardColor: gameController.cardColor)
+                .onTapGesture {
+                    withAnimation {
+                        gameController.select(card)
+                    }
+                }.padding(2)
+        }.foregroundColor(gameController.cardColor)
+    }
+    
+    var restartBtn: some View {
         Button {
             gameController.startNewGame()
         } label: {
-            Text("New Game").font(.system(size:30)).padding(.all)
+            Text("Restart").font(.system(size:30)).padding(.all)
         }
     }
 }
@@ -87,8 +95,8 @@ struct CardView : View {
 
 
 struct ContentView_Previews: PreviewProvider {
+    static let theme = Theme(name: "Vehicles", emojis: "🚗🚌🚎🏎🚑🚜🛻🚒🚅✈️", color: "red", numPairsOfEmojis: 10, id: 0)
     static var previews: some View {
-        let game = GameViewModel()
-        ContentView(game:game).preferredColorScheme(.light)
+        GameView(with: theme).preferredColorScheme(.light)
     }
 }

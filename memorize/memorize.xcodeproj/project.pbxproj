@@ -8,13 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		30BC6DDE26F66D5700606950 /* memorizeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BC6DDD26F66D5700606950 /* memorizeApp.swift */; };
-		30BC6DE026F66D5700606950 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BC6DDF26F66D5700606950 /* ContentView.swift */; };
+		30BC6DE026F66D5700606950 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BC6DDF26F66D5700606950 /* GameView.swift */; };
 		30BC6DE226F66D5B00606950 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30BC6DE126F66D5B00606950 /* Assets.xcassets */; };
 		30BC6DE526F66D5B00606950 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 30BC6DE426F66D5B00606950 /* Preview Assets.xcassets */; };
 		30BC6DF026F66D5B00606950 /* memorizeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BC6DEF26F66D5B00606950 /* memorizeTests.swift */; };
 		30BC6DFB26F66D5B00606950 /* memorizeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BC6DFA26F66D5B00606950 /* memorizeUITests.swift */; };
 		30BC6E0B26F97F7D00606950 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BC6E0A26F97F7D00606950 /* GameModel.swift */; };
 		30BC6E0D26F99F6B00606950 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BC6E0C26F99F6B00606950 /* GameViewModel.swift */; };
+		F63DF964274C709700E38481 /* ThemeEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63DF963274C709700E38481 /* ThemeEditor.swift */; };
+		F65FA80F274C460000CC9D9B /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65FA80E274C460000CC9D9B /* AspectVGrid.swift */; };
+		F65FA813274C504A00CC9D9B /* ThemeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65FA812274C504A00CC9D9B /* ThemeStore.swift */; };
+		F65FA817274C51AC00CC9D9B /* ThemeChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65FA816274C51AC00CC9D9B /* ThemeChooser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +41,7 @@
 /* Begin PBXFileReference section */
 		30BC6DDA26F66D5700606950 /* memorize.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = memorize.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		30BC6DDD26F66D5700606950 /* memorizeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = memorizeApp.swift; sourceTree = "<group>"; };
-		30BC6DDF26F66D5700606950 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		30BC6DDF26F66D5700606950 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		30BC6DE126F66D5B00606950 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		30BC6DE426F66D5B00606950 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		30BC6DE626F66D5B00606950 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,6 +53,10 @@
 		30BC6DFC26F66D5B00606950 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		30BC6E0A26F97F7D00606950 /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		30BC6E0C26F99F6B00606950 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		F63DF963274C709700E38481 /* ThemeEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeEditor.swift; sourceTree = "<group>"; };
+		F65FA80E274C460000CC9D9B /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
+		F65FA812274C504A00CC9D9B /* ThemeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeStore.swift; sourceTree = "<group>"; };
+		F65FA816274C51AC00CC9D9B /* ThemeChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeChooser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,9 +108,13 @@
 			isa = PBXGroup;
 			children = (
 				30BC6DDD26F66D5700606950 /* memorizeApp.swift */,
-				30BC6DDF26F66D5700606950 /* ContentView.swift */,
+				30BC6DDF26F66D5700606950 /* GameView.swift */,
 				30BC6E0C26F99F6B00606950 /* GameViewModel.swift */,
 				30BC6E0A26F97F7D00606950 /* GameModel.swift */,
+				F65FA80E274C460000CC9D9B /* AspectVGrid.swift */,
+				F65FA812274C504A00CC9D9B /* ThemeStore.swift */,
+				F65FA816274C51AC00CC9D9B /* ThemeChooser.swift */,
+				F63DF963274C709700E38481 /* ThemeEditor.swift */,
 				30BC6DE126F66D5B00606950 /* Assets.xcassets */,
 				30BC6DE626F66D5B00606950 /* Info.plist */,
 				30BC6DE326F66D5B00606950 /* Preview Content */,
@@ -266,9 +278,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				30BC6E0B26F97F7D00606950 /* GameModel.swift in Sources */,
-				30BC6DE026F66D5700606950 /* ContentView.swift in Sources */,
+				30BC6DE026F66D5700606950 /* GameView.swift in Sources */,
 				30BC6E0D26F99F6B00606950 /* GameViewModel.swift in Sources */,
+				F65FA817274C51AC00CC9D9B /* ThemeChooser.swift in Sources */,
+				F65FA80F274C460000CC9D9B /* AspectVGrid.swift in Sources */,
 				30BC6DDE26F66D5700606950 /* memorizeApp.swift in Sources */,
+				F63DF964274C709700E38481 /* ThemeEditor.swift in Sources */,
+				F65FA813274C504A00CC9D9B /* ThemeStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
